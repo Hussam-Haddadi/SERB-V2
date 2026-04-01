@@ -5,4 +5,3 @@ pandas
 numpy
 joblib
 pydantic-settings
-openai

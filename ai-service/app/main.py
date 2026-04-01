@@ -1,42 +1,11 @@
 from pathlib import Path
 from typing import Literal
 
-import os
-from openai import OpenAI
-
-client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
 import joblib
 import numpy as np
 import pandas as pd
 from fastapi import FastAPI
 from pydantic import BaseModel
-
-from pydantic import BaseModel
-
-class ManeuverAdviceRequest(BaseModel):
-    risk_score: float
-    miss_distance_km: float
-    tca_hours: float
-    orbit: str | None = None
-    fuel_budget_pct: float | None = None
-
-class ManeuverAdviceResponse(BaseModel):
-    maneuver_type: str
-    expected_risk_after: float
-    reason: str
-
-class ManeuverDebriefRequest(BaseModel):
-    strategy: str
-    risk_before: float
-    risk_after: float
-    delta_v_total_ms: float
-    new_tca_hours: float
-    miss_distance_km: float
-    fuel_consumption_pct: float
-
-class ManeuverDebriefResponse(BaseModel):
-    summary_text: str
-
 
 from sklearn.compose import ColumnTransformer
 from sklearn.ensemble import RandomForestRegressor
@@ -44,84 +13,6 @@ from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 
 
-from fastapi import HTTPException
-
-@app.post("/ai/maneuver-advice", response_model=ManeuverAdviceResponse)
-async def ai_maneuver_advice(body: ManeuverAdviceRequest):
-    if not client.api_key:
-        raise HTTPException(status_code=500, detail="AI not configured")
-
-    prompt = f"""
-You are an orbital safety AI. Suggest ONE maneuver strategy to reduce collision risk.
-
-Inputs:
-- Risk score: {body.risk_score} %
-- Miss distance: {body.miss_distance_km} km
-- Time to closest approach (TCA): {body.tca_hours} hours
-- Orbit type: {body.orbit or "unknown"}
-- Fuel budget (approx): {body.fuel_budget_pct or "unknown"} %
-
-Respond as compact JSON with keys:
-- maneuver_type
-- expected_risk_after
-- reason
-"""
-
-    chat = client.chat.completions.create(
-        model="gpt-4.1-mini",
-        messages=[
-            {"role": "system", "content": "You are an orbital dynamics assistant for collision-avoidance planning."},
-            {"role": "user", "content": prompt},
-        ],
-        response_format={"type": "json_object"},
-        temperature=0.3,
-    )
-
-    import json
-    try:
-        data = json.loads(chat.choices[0].message.content)
-        return ManeuverAdviceResponse(
-            maneuver_type=data.get("maneuver_type", "collision_avoidance_burn"),
-            expected_risk_after=float(data.get("expected_risk_after", body.risk_score)),
-            reason=data.get("reason", "AI-generated recommendation."),
-        )
-    except Exception:
-        raise HTTPException(status_code=500, detail="Failed to parse AI response")
-
-
-@app.post("/ai/maneuver-debrief", response_model=ManeuverDebriefResponse)
-async def ai_maneuver_debrief(body: ManeuverDebriefRequest):
-    if not client.api_key:
-        raise HTTPException(status_code=500, detail="AI not configured")
-
-    prompt = f"""
-You are an orbital safety AI. Write a short debrief (2–3 sentences) explaining the impact of a completed collision-avoidance maneuver.
-
-Data:
-- Maneuver strategy: {body.strategy}
-- Risk before: {body.risk_before} %
-- Risk after: {body.risk_after} %
-- Total delta-V: {body.delta_v_total_ms} m/s
-- New TCA: +{body.new_tca_hours} hours
-- Miss distance: {body.miss_distance_km} km
-- Fuel consumption: {body.fuel_consumption_pct} %
-
-Write in clear professional English for mission operators.
-"""
-
-    chat = client.chat.completions.create(
-        model="gpt-4.1-mini",
-        messages=[
-            {"role": "system", "content": "You are an orbital safety analyst writing concise maneuver debriefs."},
-            {"role": "user", "content": prompt},
-        ],
-        temperature=0.4,
-        max_tokens=220,
-    )
-
-    text = chat.choices[0].message.content.strip()
-    return ManeuverDebriefResponse(summary_text=text)
-    
 MODEL_PATH = Path("artifacts/launch_risk_model.joblib")
 
 
