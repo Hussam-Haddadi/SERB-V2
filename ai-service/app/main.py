@@ -4,8 +4,7 @@ from typing import Literal
 import os
 from openai import OpenAI
 
-client = OpenAI(api_key=os.environ[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])
-
+client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
 import joblib
 import numpy as np
 import pandas as pd
