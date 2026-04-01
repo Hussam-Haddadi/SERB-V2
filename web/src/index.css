@@ -29,6 +29,8 @@ body { margin: 0; font-family: Inter, Segoe UI, sans-serif; background: var(--bg
 .wrap { display: flex; flex-direction: column; gap: 18px; position: relative; }
 
 body.theme-light { background: #f1f5f9; color: #020617; }
+body.theme-light .card,
+body.theme-light .panel { background: #ffffff; border-color: #cbd5f5; }
 body.theme-light input,
 body.theme-light select,
 body.theme-light button { background: #f8fafc; color: #020617; border-color: #cbd5f5; }
@@ -71,34 +73,6 @@ body.theme-light .alert-toast-dismiss:hover { background: #e5e7eb; color: #11182
 body.theme-light .risk-filter-label { color: #4b5563; }
 body.theme-light .risk-filter-select { background: #eff6ff; }
 body.theme-light .network-chip { background: #dbeafe; color: #1d4ed8; }
-body.theme-light .card,
-body.theme-light .panel {
-  background: #ffffff;
-  border-color: #cbd5f5;
-  box-shadow: 0 14px 30px rgba(15,23,42,0.12);
-}
-body.theme-light .space-pill {
-  background: #e5ecff;
-  border-color: #c7d2fe;
-}
-body.theme-light .space-pill.danger {
-  background: #fee2e2;
-  border-color: #fecaca;
-  box-shadow: 0 0 16px rgba(248,113,113,0.35);
-}
-body.theme-light .space-pill.neutral {
-  background: #e0f2fe;
-  border-color: #bae6fd;
-}
-body.theme-light .space-pill.congestion {
-  background: #ede9fe;
-  border-color: #ddd6fe;
-}
-body.theme-light .brand-mark img {
-  filter: drop-shadow(0 0 10px rgba(15,23,42,0.7));
-}
-body.theme-light .activity-label { color: #0f172a; }
-body.theme-light .activity-time { color: #6b7280; }
 
 .theme-toggle {
   width: auto;
