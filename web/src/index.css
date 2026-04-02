@@ -73,6 +73,24 @@ body.theme-light .alert-toast-dismiss:hover { background: #e5e7eb; color: #11182
 body.theme-light .risk-filter-label { color: #4b5563; }
 body.theme-light .risk-filter-select { background: #eff6ff; }
 body.theme-light .network-chip { background: #dbeafe; color: #1d4ed8; }
+body.theme-light .constellation-card,
+body.theme-light .story-card {
+  background: #0f172a;
+  border-color: #111827;
+}
+body.theme-light .constellation-card h4,
+body.theme-light .story-card h4 { color: #e5e7eb; }
+body.theme-light .story-main { color: #f9fafb; }
+
+/* Light header + logo tweaks */
+body.theme-light header {
+  background: linear-gradient(180deg,#e5f3ff,#f1f5f9 65%, transparent);
+  padding: 10px 16px;
+  border-radius: 18px;
+}
+body.theme-light .brand-mark img {
+  filter: drop-shadow(0 0 10px rgba(15,23,42,0.7));
+}
 
 .theme-toggle {
   width: auto;
@@ -429,6 +447,24 @@ h1 { font-size: 24px; margin: 0; line-height: 1.2; }
   font-size: 13px;
 }
 .ai-explainer strong { display: block; margin-bottom: 4px; color: #7dd3fc; }
+.activity-panel { margin-top: 14px; }
+.activity-timeline { list-style: none; margin: 6px 0 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.activity-item { display: flex; align-items: flex-start; gap: 10px; }
+.activity-dot { width: 10px; height: 10px; border-radius: 50%; background: #38bdf8; box-shadow: 0 0 12px rgba(56,189,248,0.7); margin-top: 6px; }
+.activity-main { flex: 1; }
+.activity-label { margin: 0; font-size: 13px; color: #e5e7eb; }
+.activity-time { margin: 2px 0 0; font-size: 11px; color: #94a3b8; }
+
+/* Light theme visibility tweaks */
+body.theme-light .brand-mark img { filter: drop-shadow(0 0 6px rgba(15,23,42,0.4)); }
+body.theme-light .activity-label { color: #111827; }
+body.theme-light .activity-time { color: #4b5563; }
+body.theme-light .ai-explainer {
+  background: #eff6ff;
+  border-color: #60a5fa;
+  color: #111827;
+}
+body.theme-light .ai-explainer strong { color: #1d4ed8; }
 .history-header { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 4px; }
 .history-header h3 { margin: 0; }
 .history-clear-btn { position: relative; z-index: 2; width: auto; margin: 0; padding: 8px 14px; font-size: 13px; background: #334155; border-color: #475569; color: #e2e8f0; cursor: pointer; }
